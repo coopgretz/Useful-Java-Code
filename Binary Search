@@ -1,0 +1,52 @@
+public class BinaryTree {
+	
+	public static void main(String[] args)
+	{
+		int[] arr = {1, 22, 45, 62, 78, 444, 891, 1000,1200, 1400};
+		try
+		{
+			System.out.println(binarySearch(arr, 22));
+		}
+		catch(StackOverflowError ex)
+		{
+			System.out.println("Number is not in array");
+		}
+	}
+	//this method allows me to call binary search without putting in all the parameters it needs, it will assume im using the whole array
+	public static int binarySearch(int[] arr, int searching)
+	{
+		return binSupport(arr, searching, 0, arr.length);
+	}
+	// actual recursive sorting algorithm
+	/*
+	 * Binary search works by dividing the number of possible positions a number could be in by 2 every time it gets recursed.
+	 * It checks if the middle number is equal to what you're searching for, and returns that index if it is.
+	 * If it isn't, then it reduces the array by half, so if the searching number is larger than the number at the middle index
+	 * it will get rid of the first half of the array, and vice versa if the number in the middle is smaller than the middle index.
+	 * This runs recursively until the middle number is the number you are searching for, then returns. 
+	 * Worst case scenario it runs until you have an array of only one number, which counts as the middle, and will return.
+	 * If the user tries to use this method while a number is not in the array, it will infinitely run and cause a stack overflow exception.
+	 * One can use a try catch to deal with this whenever you call it.
+	 * */
+	public static int binSupport(int arr[], int searching, int start, int end)
+	{
+		int mid = (start+end)/2;
+		// checks if the middle number is the target
+		if(arr[mid] == searching)
+		{
+			return mid;
+		}
+		
+		// checks if the middle number is smaller than the target, recurses with half the array if it is
+		else if(arr[mid] < searching)
+		{
+			return binSupport(arr, searching, mid+1, end);
+		}
+		
+		//assumes that if its not smaller than target, its bigger, so it recurses with the other half of the array
+		else
+		{
+			return binSupport(arr, searching, start, mid-1);
+		}
+	}
+}
